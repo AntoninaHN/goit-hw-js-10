@@ -60,7 +60,7 @@ function renderCountryInfo(countryGetInfo) {
         refs.countryInfo.innerHTML = '';
       }
 
-      function AddCountryInfo() {
+      function AddCountryInfo(renderCountryInfo) {
         return refs.countryInfo.insertAdjacentHTML(
           'beforeend',
           `<div class="flag-country-block">
