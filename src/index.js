@@ -15,6 +15,7 @@ const refs = {
 };
 
 let name;
+
 const restCountriesAPI = new RestCountriesAPI();
 
 refs.searchBox.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY, { trailing: true }));
@@ -22,7 +23,7 @@ refs.searchBox.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY, { tr
 function onSearch(e) {
   e.preventDefault();
 
-  name = e.path[0].value.trim();
+  name = e.path[0].value.trim().toLowerCase();
   refs.countryInfo.innerHTML = '';
   refs.countryList.innerHTML = '';
 
@@ -33,31 +34,29 @@ function onSearch(e) {
     });
   }
 }
-
 function renderCountryInfo(countryGetInfo) {
-  const element = countryGetInfo;
-  const { name, capital, population, flags, languages } = element[countryGetInfo];
+  for (const i in countryGetInfo) {
+    const elementObj = countryGetInfo[i];
+    const { name, capital, population, flags, languages } = elementObj;
 
-  if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
-    refs.countryInfo.innerHTML = '';
-    refs.countryList.innerHTML = '';
+    if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
+      refs.countryInfo.innerHTML = '';
+      refs.countryList.innerHTML = '';
+      return AddCountry(countryGetInfo);
+    } else if (countryGetInfo.length === 1) {
+      refs.countryList.innerHTML = '';
+      refs.countryInfo.innerHTML = '';
+      return AddCountryInfo(countryGetInfo);
+    } else if (countryGetInfo.length >= 10) {
+      Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+      refs.countryList.innerHTML = '';
+      refs.countryInfo.innerHTML = '';
+    }
 
-    return AddCountry(countryGetInfo);
-  } else if (countryGetInfo.length === 1) {
-    refs.countryList.innerHTML = '';
-    refs.countryInfo.innerHTML = '';
-
-    return AddCountryInfo(countryGetInfo);
-  } else if (countryGetInfo.length >= 10) {
-    Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-    refs.countryList.innerHTML = '';
-    refs.countryInfo.innerHTML = '';
-  }
-
-  function AddCountryInfo() {
-    return refs.countryInfo.insertAdjacentHTML(
-      'beforeend',
-      `<div class="flag-country-block">
+    function AddCountryInfo() {
+      return refs.countryInfo.insertAdjacentHTML(
+        'beforeend',
+        `<div class="flag-country-block">
         <img
           class="flag"
           src="${flags.svg}"
@@ -83,12 +82,12 @@ function renderCountryInfo(countryGetInfo) {
           >
         </li>
       </ul>`,
-    );
-  }
-  function AddCountry(countryGetInfo) {
-    const countriesInfo = countryGetInfo
-      .map(item => {
-        return `<li class="country-list-item">
+      );
+    }
+    function AddCountry() {
+      const countriesInfo = countryGetInfo
+        .map(item => {
+          return `<li class="country-list-item">
         <img
           class="flag-list"
           src="${item.flags.svg}"
@@ -98,9 +97,10 @@ function renderCountryInfo(countryGetInfo) {
           />
         <h2 class="list-item-h2">${item.name.official}</h2>
       </li>`;
-      })
-      .join('');
+        })
+        .join('');
 
-    refs.countryList.insertAdjacentHTML('beforeend', countriesInfo);
+      refs.countryList.insertAdjacentHTML('beforeend', countriesInfo);
+    }
   }
 }
