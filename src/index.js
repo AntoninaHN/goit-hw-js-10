@@ -60,7 +60,7 @@ function renderCountryInfo(countryGetInfo) {
         refs.countryInfo.innerHTML = '';
       }
 
-      function AddCountryInfo(renderCountryInfo) {
+      function AddCountryInfo() {
         return refs.countryInfo.insertAdjacentHTML(
           'beforeend',
           `<div class="flag-country-block">
@@ -68,6 +68,8 @@ function renderCountryInfo(countryGetInfo) {
           class="flag"
           src="${flags.png}"
           alt="flag"
+          height="40"
+          width="60"
         />
         <h1>${name.official}</h1>
       </div>
@@ -103,6 +105,8 @@ function AddCountry(countryGetInfo) {
           class="flag-list"
           src="${item.flags.png}"
           alt="flag"
+          height="40"
+          width="60"
           />
         <h2 class="list-item-h2">${item.name.official}</h2>
       </li>`;
