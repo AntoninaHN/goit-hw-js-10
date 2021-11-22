@@ -23,8 +23,8 @@ function onSearch(e) {
   e.preventDefault();
 
   name = e.path[0].value.trim().toLowerCase();
-  refs.countryInfo.innerHTML = '';
-  refs.countryList.innerHTML = '';
+  cleanEl(refs.countryInfo);
+  cleanEl(refs.countryList);
 
   if (name !== '') {
     restCountriesAPI.name = name;

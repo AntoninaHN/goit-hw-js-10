@@ -4,11 +4,12 @@ import { refs } from 'index.js';
 
 const BASE_URL = 'https://restcountries.com/v3.1/name';
 
+const cleanEl = el => (el.innerHTML = '');
 const handleError = response => {
   if (!response.ok) {
     Notiflix.Notify.failure('Oops, there is no country with that name');
-    refs.countryInfo.innerHTML = ' ';
-    refs.countryList.innerHTML = ' ';
+    cleanEl(refs.countryInfo);
+    cleanEl(refs.countryList);
     throw new Error(response.status);
   } else {
     return response.json();
