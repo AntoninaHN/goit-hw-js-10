@@ -35,38 +35,32 @@ function onSearch(e) {
 }
 
 function renderCountryInfo(countryGetInfo) {
-  for (const key in countryGetInfo) {
-    if (Object.hasOwnProperty.call(countryGetInfo, key)) {
-      const element = countryGetInfo[key];
-      // console.log(element);
-      // console.log(countryGetInfo);
+  const element = countryGetInfo;
+  const { name, capital, population, flags, languages } = element[countryGetInfo];
 
-      const { name, capital, population, flags, languages } = element;
+  if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
+    refs.countryInfo.innerHTML = '';
+    refs.countryList.innerHTML = '';
 
-      console.log(countryGetInfo.length);
+    return AddCountry(countryGetInfo);
+  } else if (countryGetInfo.length === 1) {
+    refs.countryList.innerHTML = '';
+    refs.countryInfo.innerHTML = '';
 
-      if (countryGetInfo.length > 1 && countryGetInfo.length < 10) {
-        refs.countryInfo.innerHTML = '';
-        refs.countryList.innerHTML = '';
+    return AddCountryInfo(countryGetInfo);
+  } else if (countryGetInfo.length >= 10) {
+    Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+    refs.countryList.innerHTML = '';
+    refs.countryInfo.innerHTML = '';
+  }
 
-        return AddCountry(countryGetInfo);
-      } else if (countryGetInfo.length === 1) {
-        refs.countryList.innerHTML = '';
-        refs.countryInfo.innerHTML = '';
-
-        return AddCountryInfo(countryGetInfo);
-      } else if (countryGetInfo.length > 10) {
-        refs.countryList.innerHTML = '';
-        refs.countryInfo.innerHTML = '';
-      }
-
-      function AddCountryInfo() {
-        return refs.countryInfo.insertAdjacentHTML(
-          'beforeend',
-          `<div class="flag-country-block">
+  function AddCountryInfo() {
+    return refs.countryInfo.insertAdjacentHTML(
+      'beforeend',
+      `<div class="flag-country-block">
         <img
           class="flag"
-          src="${flags.png}"
+          src="${flags.svg}"
           alt="flag"
           height="40"
           width="60"
@@ -89,29 +83,24 @@ function renderCountryInfo(countryGetInfo) {
           >
         </li>
       </ul>`,
-        );
-      }
-    }
+    );
   }
-}
-
-function AddCountry(countryGetInfo) {
-  const countriesInfo = countryGetInfo
-    .map(item => {
-      console.log(item);
-
-      return `<li class="country-list-item">
+  function AddCountry(countryGetInfo) {
+    const countriesInfo = countryGetInfo
+      .map(item => {
+        return `<li class="country-list-item">
         <img
           class="flag-list"
-          src="${item.flags.png}"
+          src="${item.flags.svg}"
           alt="flag"
           height="40"
           width="60"
           />
         <h2 class="list-item-h2">${item.name.official}</h2>
       </li>`;
-    })
-    .join('');
+      })
+      .join('');
 
-  refs.countryList.insertAdjacentHTML('beforeend', countriesInfo);
+    refs.countryList.insertAdjacentHTML('beforeend', countriesInfo);
+  }
 }

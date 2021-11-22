@@ -18,7 +18,6 @@ const handleError = response => {
 export default class RestCountriesAPI {
   constructor() {
     this.searchName = '';
-    this.page = 1;
     this.countryGetInfo = '';
   }
 
@@ -29,10 +28,6 @@ export default class RestCountriesAPI {
       .then(handleError)
       .then(data => {
         console.log(data);
-        if (data.length > 10) {
-          Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-        }
-        this.page += 1;
         this.countryGetInfo = data;
         return this.countryGetInfo;
       })
