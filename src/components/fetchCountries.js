@@ -14,7 +14,6 @@ const handleError = response => {
     return response.json();
   }
 };
-
 export default class RestCountriesAPI {
   constructor() {
     this.searchName = '';

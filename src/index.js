@@ -7,14 +7,13 @@ import { debounce } from 'lodash';
 export { refs };
 
 const DEBOUNCE_DELAY = 300;
-
+let name;
+const cleanEl = el => (el.innerHTML = '');
 const refs = {
   searchBox: document.querySelector('input#search-box'),
   countryList: document.querySelector('.country-list'),
   countryInfo: document.querySelector('.country-info'),
 };
-
-let name;
 
 const restCountriesAPI = new RestCountriesAPI();
 
@@ -40,17 +39,17 @@ function renderCountryInfo(countryGetInfo) {
     const { name, capital, population, flags, languages } = elementObj;
 
     if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
-      refs.countryInfo.innerHTML = '';
-      refs.countryList.innerHTML = '';
-      return AddCountry(countryGetInfo);
+      cleanEl(refs.countryInfo);
+      cleanEl(refs.countryList);
+      return AddCountryInfo(countryGetInfo);
     } else if (countryGetInfo.length === 1) {
-      refs.countryList.innerHTML = '';
-      refs.countryInfo.innerHTML = '';
+      cleanEl(refs.countryInfo);
+      cleanEl(refs.countryList);
       return AddCountryInfo(countryGetInfo);
     } else if (countryGetInfo.length >= 10) {
-      Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-      refs.countryList.innerHTML = '';
-      refs.countryInfo.innerHTML = '';
+      Notiflix.Notify.info('Oops, too many matches found. Please enter a more specific name.');
+      cleanEl(refs.countryInfo);
+      cleanEl(refs.countryList);
     }
 
     function AddCountryInfo() {
@@ -83,24 +82,6 @@ function renderCountryInfo(countryGetInfo) {
         </li>
       </ul>`,
       );
-    }
-    function AddCountry() {
-      const countriesInfo = countryGetInfo
-        .map(item => {
-          return `<li class="country-list-item">
-        <img
-          class="flag-list"
-          src="${item.flags.svg}"
-          alt="flag"
-          height="40"
-          width="60"
-          />
-        <h2 class="list-item-h2">${item.name.official}</h2>
-      </li>`;
-        })
-        .join('');
-
-      refs.countryList.insertAdjacentHTML('beforeend', countriesInfo);
     }
   }
 }
