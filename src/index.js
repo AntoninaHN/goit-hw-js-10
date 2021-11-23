@@ -5,6 +5,9 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import RestCountriesAPI from './components/fetchCountries';
 import { debounce } from 'lodash';
 export { refs };
+import allCountries from './all-countries';
+import country from './country';
+import { parseWithoutProcessing } from 'handlebars';
 
 const DEBOUNCE_DELAY = 300;
 let name;
@@ -34,54 +37,20 @@ function onSearch(e) {
   }
 }
 function renderCountryInfo(countryGetInfo) {
-  for (const i in countryGetInfo) {
-    const elementObj = countryGetInfo[i];
-    const { name, capital, population, flags, languages } = elementObj;
+  const elementObj = countryGetInfo.length;
+  //const { name, capital, population, flags, languages } = elementObj;
 
-    if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
-      cleanEl(refs.countryInfo);
-      cleanEl(refs.countryList);
-      return AddCountryInfo(countryGetInfo);
-    } else if (countryGetInfo.length === 1) {
-      cleanEl(refs.countryInfo);
-      cleanEl(refs.countryList);
-      return AddCountryInfo(countryGetInfo);
-    } else if (countryGetInfo.length >= 10) {
-      Notiflix.Notify.info('Oops, too many matches found. Please enter a more specific name.');
-      cleanEl(refs.countryInfo);
-      cleanEl(refs.countryList);
-    }
-
-    function AddCountryInfo() {
-      return refs.countryInfo.insertAdjacentHTML(
-        'beforeend',
-        `<div class="flag-country-block">
-        <img
-          class="flag"
-          src="${flags.svg}"
-          alt="flag"
-          height="40"
-          width="60"
-        />
-        <h1>${name.official}</h1>
-      </div>
-      <ul class="country-info-details">
-        <li class="country-info-item">
-          <h2>Capital:</h2>
-          <span class="info-value">${capital}</span>
-        </li>
-        <li class="country-info-item">
-          <h2>Population:</h2>
-          <span class="info-value">${population}</span
-          >
-        </li>
-        <li class="country-info-item">
-          <h2>Languages:</h2>
-          <span class="info-value">${Object.values(languages)}</span
-          >
-        </li>
-      </ul>`,
-      );
-    }
+  if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
+    cleanEl(refs.countryInfo);
+    cleanEl(refs.countryList);
+    refs.countryList.innerHTML = allCountries(countryGetInfo);
+  } else if (countryGetInfo.length === 1) {
+    cleanEl(refs.countryInfo);
+    cleanEl(refs.countryList);
+    refs.countryInfo.innerHTML = country(countryGetInfo);
+  } else {
+    Notiflix.Notify.info('Oops, too many matches found. Please enter a more specific name.');
+    cleanEl(refs.countryInfo);
+    cleanEl(refs.countryList);
   }
 }

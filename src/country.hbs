@@ -1,0 +1,14 @@
+{{#this}}
+<ul class="list">
+    <li class="imgsection"><img src="{{flags.svg}}" alt="flags" width="60" height="40" /><span class="countryName">{{name.official}}<span>
+    </li>
+    <li class="item">Capital <span class="itemS">{{capital}}<span></li>
+    <li class="item">Population <span class="itemS">{{population}}<span></li>
+    <li class="item">Languages:  
+    {{#each languages}}
+        <span class="itemS">{{this}}<span>
+
+    {{/each}}
+        </li>
+</ul>
+{{/this}}
