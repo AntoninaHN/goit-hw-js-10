@@ -36,9 +36,9 @@ function onSearch(e) {
     });
   }
 }
+
 function renderCountryInfo(countryGetInfo) {
   const elementObj = countryGetInfo.length;
-  //const { name, capital, population, flags, languages } = elementObj;
 
   if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
     cleanEl(refs.countryInfo);
