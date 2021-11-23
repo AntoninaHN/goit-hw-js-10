@@ -1,7 +1,5 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import RestCountriesAPI from './components/fetchCountries';
 import { debounce } from 'lodash';
 export { refs };
@@ -12,6 +10,7 @@ import { parseWithoutProcessing } from 'handlebars';
 const DEBOUNCE_DELAY = 300;
 let name;
 const cleanEl = el => (el.innerHTML = '');
+
 const refs = {
   searchBox: document.querySelector('input#search-box'),
   countryList: document.querySelector('.country-list'),
@@ -32,6 +31,7 @@ function onSearch(e) {
   if (name !== '') {
     restCountriesAPI.name = name;
     restCountriesAPI.fetchCountries(name).then(countryGetInfo => {
+      console.log(countryGetInfo);
       renderCountryInfo(countryGetInfo);
     });
   }
@@ -39,14 +39,17 @@ function onSearch(e) {
 
 function renderCountryInfo(countryGetInfo) {
   const elementObj = countryGetInfo.length;
+  console.log(elementObj);
+  console.log(countryGetInfo);
+  if (elementObj > 1 && elementObj < 10) {
+    cleanEl(refs.countryInfo);
+    cleanEl(refs.countryList);
 
-  if (countryGetInfo.length > 1 && countryGetInfo.length <= 10) {
-    cleanEl(refs.countryInfo);
-    cleanEl(refs.countryList);
     refs.countryList.innerHTML = allCountries(countryGetInfo);
-  } else if (countryGetInfo.length === 1) {
+  } else if (elementObj === 1) {
     cleanEl(refs.countryInfo);
     cleanEl(refs.countryList);
+
     refs.countryInfo.innerHTML = country(countryGetInfo);
   } else {
     Notiflix.Notify.info('Oops, too many matches found. Please enter a more specific name.');
