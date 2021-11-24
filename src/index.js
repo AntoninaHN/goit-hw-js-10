@@ -22,7 +22,7 @@ const restCountriesAPI = new RestCountriesAPI();
 refs.searchBox.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY, { trailing: true }));
 
 function onSearch(e) {
-  e.preventDefault();
+  //e.preventDefault();
 
   name = e.path[0].value.trim().toLowerCase();
   cleanEl(refs.countryInfo);
