@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 export { refs };
 import allCountries from './all-countries';
 import country from './country';
-import { parseWithoutProcessing } from 'handlebars';
+//import { parseWithoutProcessing } from 'handlebars';
 
 const DEBOUNCE_DELAY = 300;
 let name;
@@ -41,7 +41,7 @@ function renderCountryInfo(countryGetInfo) {
   const elementObj = countryGetInfo.length;
   console.log(elementObj);
   console.log(countryGetInfo);
-  if (elementObj > 1 && elementObj < 10) {
+  if (elementObj > 1 && elementObj <= 10) {
     cleanEl(refs.countryInfo);
     cleanEl(refs.countryList);
 
