@@ -117,7 +117,7 @@ const searchInputHandler = e => {
 
   const resultObject = API.fetchCountries(sanitiedText)
     .then(result => {
-      if (result.length > 10) {
+      if (result.length >= 10) {
         Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
         return;
       }
@@ -132,6 +132,7 @@ const searchInputHandler = e => {
     })
     .catch(error => {
       console.log(error);
+      Notiflix.Notify.failure('Oops, there is no country with that name');
     });
 };
 
