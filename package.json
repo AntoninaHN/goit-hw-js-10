@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "http://antoninahn.github.io/goit-hw-js-10/",
+  "homepage": "http://olegk-coder.github.io/goit-hw-js-10/",
   "scripts": {
     "dev": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /goit-hw-js-10/"
